@@ -1,0 +1,4 @@
+INDEX VERSION 1.132+C:\Users\wlsgh\OneDrive\Desktop\4학년 1학기\객체지향\AVOCADO\.metadata\.plugins\org.eclipse.jdt.core
+2312082246.index
+1372677264.index
+1865797976.index
