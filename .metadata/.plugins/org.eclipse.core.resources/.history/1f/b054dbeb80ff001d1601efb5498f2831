@@ -1,0 +1,18 @@
+package newproject;
+
+public class test {
+	public static void main(String[] args) {
+		String[] new1 =new MysqlConnection().noteList("oop1");
+		
+		for(int i =0;i<new1.length;i++) {
+			System.out.println(new1[i]);
+		}
+		
+//		String[] a = new String[2];
+//		String lang = "Kor";
+//		String search_word = "예시";
+//		a = new BasicVocaSearch(lang,search_word).search();
+//		System.out.println(a[0]+","+a[1]);
+	}
+
+}

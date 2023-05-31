@@ -1,0 +1,12 @@
+package newproject;
+
+public class test {
+	public static void main(String[] args) {
+		String[] a = new String[2];
+		String lang = "Kor";
+		String search_word = "예시";
+		a = new BasicVocaSearch(lang,search_word).search();
+		System.out.println(a[0]+","+a[1]);
+	}
+
+}
