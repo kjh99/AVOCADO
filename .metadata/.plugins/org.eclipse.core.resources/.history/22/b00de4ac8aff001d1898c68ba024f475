@@ -2,8 +2,8 @@ package newproject;
 
 public class test {
 	public static void main(String[] args) {
-		IdFunction id = new IdFunction("new123");
-		new MysqlConnection().viewTable("user");
+		boolean new1 =new MysqlConnection().hasId("oop21");
+		System.out.println(new1);
 		
 		
 	}

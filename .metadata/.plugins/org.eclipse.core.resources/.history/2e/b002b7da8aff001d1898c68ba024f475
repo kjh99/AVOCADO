@@ -43,7 +43,6 @@ public class MysqlConnection {
 			Connection conn = MysqlConnection.getConnection();
 			
 			if(table.equals("user") || table.equals("all")) {
-				System.out.println("");
 				sql = "SELECT * FROM user;";
 				preparedStatement = conn.prepareStatement(sql);
 				rs = preparedStatement.executeQuery();
