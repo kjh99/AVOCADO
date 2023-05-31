@@ -382,7 +382,7 @@ public class MysqlConnection {
 		
 	}
 	
-	//basic_voca 테이블에서 search
+	
 	public String[] search(String lang, String search_word) {
 		String[] a = new String[2]; // 출력 결과를 넣을 String배열
 		PreparedStatement preparedStatement = null;
