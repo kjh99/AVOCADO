@@ -5,19 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class IdFunction {
-	String id;
-	boolean hasid;
-	
-	public IdFunction(String id) {
-		Scanner scanner = new Scanner(System.in);
-		hasid = hasId(id);
-		if(hasid == false) {
-			System.out.print("nickname:");
-			String nickname = scanner.next();
-			userInsert(id,nickname);
-		}
-	}
-	
+
+
 	//id가 존재하는지 확인 true ->있음 false ->없음
 	public boolean hasId(String id) {
 		PreparedStatement preparedStatement = null;
