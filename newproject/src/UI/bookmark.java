@@ -37,30 +37,30 @@ public class bookmark extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);   //���ã�� ��
+        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);   //즐겨찾기 탭
         tabbedPane.setBounds(23, 28, 335, 309);
         JPanel panel1=new JPanel();
         panel1.setBackground(new Color(215, 236, 213));
-        tabbedPane.add("���ã��",panel1);
+        tabbedPane.add("즐겨찾기",panel1);
         panel1.setLayout(null);
         
-        ScrollPane scrollPane = new ScrollPane();        //���ã�� �� �ܾ� ��� ����� scrollpane
+        ScrollPane scrollPane = new ScrollPane();        //즐겨찾기 된 단어 목록 출력할 scrollpane
         scrollPane.setBackground(new Color(255, 255, 255));
         scrollPane.setBounds(10, 10, 310, 260);
         panel1.add(scrollPane);
         
-        JPanel panel2=new JPanel();                         //�ܾ��� ��
+        JPanel panel2=new JPanel();                         //단어목록 탭
         panel2.setBackground(new Color(215, 236, 213));
-        tabbedPane.add("�ܾ���",panel2);
+        tabbedPane.add("단어목록",panel2);
         panel2.setLayout(null);
         
-        ScrollPane scrollPane_1 = new ScrollPane();        //�ܾ��� ����� scrollpane
+        ScrollPane scrollPane_1 = new ScrollPane();        //단어목록 출력할 scrollpane
         scrollPane_1.setBackground(new Color(255, 255, 255));
         scrollPane_1.setBounds(10, 10, 310, 219);
         panel2.add(scrollPane_1);
         
-        JButton btn_add = new JButton("���ã�⿡ �߰�");     //���ã�� �߰� ��ư
-        btn_add.setFont(new Font("HY����M", Font.BOLD, 12));
+        JButton btn_add = new JButton("즐겨찾기에 추가");     //즐겨찾기 추가 버튼
+        btn_add.setFont(new Font("HY엽서M", Font.BOLD, 12));
         btn_add.setBackground(new Color(245, 249, 208));
         btn_add.setBounds(10, 235, 310, 35);
         panel2.add(btn_add);

@@ -1,22 +1,24 @@
 package UI;
-import newproject.*;
-
+import java.awt.EventQueue;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.LineBorder;
-
-
-
+import newproject.*;
 
 public class Main extends JFrame {
 
     private JPanel contentPane;
     private JTextField textField;
-    
     IdFunction idf = new IdFunction();
     
-
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                    Main frame = new Main();
+                    frame.setVisible(true);
+            }});
+    }
     
     public Main() {
         setSize(550,350);
@@ -49,17 +51,16 @@ public class Main extends JFrame {
         JLabel lb_id = new JLabel("ID");
         lb_id.setBounds(128, 180, 50, 40);
         panel.add(lb_id);
-        lb_id.setFont(new Font("����", Font.BOLD, 25));
+        lb_id.setFont(new Font("굴림", Font.BOLD, 25));
         
-        textField = new JTextField();//id�Է¹��� textfield
+        textField = new JTextField();             //id입력받을 textfield
         textField.addActionListener(new MyActionListener());
         textField.setBounds(161, 190, 210, 21);
         panel.add(textField);
         textField.setColumns(10);
-         
-       
+  
     }
-    
+
     class MyActionListener implements ActionListener{
     	public void actionPerformed(ActionEvent e) {
     		String id = textField.getText();

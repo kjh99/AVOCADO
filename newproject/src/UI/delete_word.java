@@ -46,39 +46,39 @@ public class delete_word extends JFrame {
         scrollPane.setBounds(259, 46, 91, 266);
         panel.add(scrollPane);
         
-        JLabel lb_list = new JLabel("    �ܾ� ���");
-        lb_list.setFont(new Font("HY����M", Font.BOLD, 12));
+        JLabel lb_list = new JLabel("    단어 목록");
+        lb_list.setFont(new Font("HY엽서M", Font.BOLD, 12));
         lb_list.setVerticalAlignment(SwingConstants.BOTTOM);
         lb_list.setBounds(259, 10, 91, 27);
         panel.add(lb_list);
         
-        JLabel lb_e = new JLabel("����");
-        lb_e.setFont(new Font("HY����M", Font.BOLD, 12));
+        JLabel lb_e = new JLabel("영어");
+        lb_e.setFont(new Font("HY엽서M", Font.BOLD, 12));
         lb_e.setBounds(44, 96, 59, 27);
         panel.add(lb_e);
         
-        JLabel lb_k = new JLabel("�ѱ�");
-        lb_k.setFont(new Font("HY����M", Font.BOLD, 12));
+        JLabel lb_k = new JLabel("한글");
+        lb_k.setFont(new Font("HY엽서M", Font.BOLD, 12));
         lb_k.setBounds(44, 138, 59, 27);
         panel.add(lb_k);
         
-        textField = new JTextField();             //�����ϰ� ������ ���� textfield
+        textField = new JTextField();             //수정하고 삭제할 영어 textfield
         textField.setBounds(76, 99, 134, 21);
         panel.add(textField);
         textField.setColumns(10);
         
-        textField_1 = new JTextField();          //�����ϰ� ������ �ѱ� textfield
+        textField_1 = new JTextField();          //수정하고 삭제할 한글 textfield
         textField_1.setBounds(76, 141, 134, 21);
         panel.add(textField_1);
         textField_1.setColumns(10);
         
-        JButton btn_edit = new JButton("�ܾ� ����");    //�ܾ���� ��ư
-        btn_edit.setFont(new Font("HY����M", Font.BOLD, 12));
+        JButton btn_edit = new JButton("단어 수정");    //단어수정 버튼
+        btn_edit.setFont(new Font("HY엽서M", Font.BOLD, 12));
         btn_edit.setBounds(22, 185, 95, 39);
         panel.add(btn_edit);
         
-        JButton btn_delete = new JButton("�ܾ� ����");  //�ܾ���� ��ư
-        btn_delete.setFont(new Font("HY����M", Font.BOLD, 12));
+        JButton btn_delete = new JButton("단어 삭제");  //단어삭제 버튼
+        btn_delete.setFont(new Font("HY엽서M", Font.BOLD, 12));
         btn_delete.setBounds(129, 185, 95, 39);
         panel.add(btn_delete);
        
