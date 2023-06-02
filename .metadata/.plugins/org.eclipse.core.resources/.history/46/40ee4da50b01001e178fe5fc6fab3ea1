@@ -223,25 +223,6 @@ public class MysqlConnection {
 		}
 		
 	}
-	//단어장에서 단어 삭제
-	public void noteDelete(String user_id,String note_name ,String word) {
-		PreparedStatement preparedStatement = null;
-		
-		String sql = "DELETE FROM mynote WHERE(user_id ="+"\'"+user_id+"\'"+")and(note_name="+"\'"+note_name+"\'"+")and(word="+"\'"+word+"\'"+");";
-		System.out.println(sql);
-		try {
-			Connection conn = MysqlConnection.getConnection();
-
-			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.execute();
-			preparedStatement.close();
-			conn.close();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		
-	}
 	
 	//friend 테이블에 친구 추가
 	public void friendInsert(String my_id, String friend_nickname) {
@@ -278,31 +259,6 @@ public class MysqlConnection {
 		}
 		
 	}
-	
-	//단어장 자체 삭제(내부 단어 포함)
-	public void noteListDelete(String user_id,String note_name ) {
-		PreparedStatement preparedStatement = null;
-		
-		String sql = "DELETE FROM note_list WHERE(user_id ="+"\'"+user_id+"\'"+")and(note_name="+"\'"+note_name+"\'"+");";
-		System.out.println(sql);
-		try {
-			Connection conn = MysqlConnection.getConnection();
-
-			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.execute();
-			sql = "DELETE FROM mynote WHERE(user_id ="+"\'"+user_id+"\'"+")and(note_name="+"\'"+note_name+"\'"+");";
-			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.execute();
-			preparedStatement.close();
-			conn.close();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		
-	}
-	
-	
 	
 	
 	//번호를 이용해 mynote 테이블의 내용 수정
@@ -510,7 +466,7 @@ public class MysqlConnection {
 		
 		
 	}
-	//즐겨찾기 모두 가져오기
+	
 	public HashMap<String,String> bookMarkList(String user_id) {
 		HashMap<String, String> wordlist = new HashMap<String,String>();
 		PreparedStatement preparedStatement = null;
@@ -537,7 +493,7 @@ public class MysqlConnection {
 		return wordlist;
 		
 	}
-	//즐겨찾기 내부 단어 삭제
+	
 	public void bookMarkDelete(String user_id, String word) {
 		PreparedStatement preparedStatement = null;
 		

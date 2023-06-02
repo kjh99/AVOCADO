@@ -279,7 +279,6 @@ public class MysqlConnection {
 		
 	}
 	
-	//단어장 자체 삭제(내부 단어 포함)
 	public void noteListDelete(String user_id,String note_name ) {
 		PreparedStatement preparedStatement = null;
 		
@@ -289,7 +288,7 @@ public class MysqlConnection {
 			Connection conn = MysqlConnection.getConnection();
 
 			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.execute();
+			
 			sql = "DELETE FROM mynote WHERE(user_id ="+"\'"+user_id+"\'"+")and(note_name="+"\'"+note_name+"\'"+");";
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.execute();
@@ -510,7 +509,7 @@ public class MysqlConnection {
 		
 		
 	}
-	//즐겨찾기 모두 가져오기
+	
 	public HashMap<String,String> bookMarkList(String user_id) {
 		HashMap<String, String> wordlist = new HashMap<String,String>();
 		PreparedStatement preparedStatement = null;
@@ -537,7 +536,7 @@ public class MysqlConnection {
 		return wordlist;
 		
 	}
-	//즐겨찾기 내부 단어 삭제
+	
 	public void bookMarkDelete(String user_id, String word) {
 		PreparedStatement preparedStatement = null;
 		

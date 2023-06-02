@@ -537,7 +537,7 @@ public class MysqlConnection {
 		return wordlist;
 		
 	}
-	//즐겨찾기 내부 단어 삭제
+	
 	public void bookMarkDelete(String user_id, String word) {
 		PreparedStatement preparedStatement = null;
 		
