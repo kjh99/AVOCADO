@@ -34,7 +34,7 @@ public class MysqlConnection {
 	}
 	
 	//테이블 보기
-	public void viewTable(String table) {// table 변수 ->all(전체보기),user,note_list,friend,mynote,basicvoca
+	public void viewTable(String table) {// table 변수 ->all(전체보기),user,note_list,friend,mynote,basicvoca,bookmark
 		PreparedStatement preparedStatement = null;
 		String sql = null;
 		ResultSet rs = null;
@@ -113,6 +113,22 @@ public class MysqlConnection {
 					String word = rs.getString("word");
 					String meaning = rs.getString("meaning");
 					System.out.println(num + "\t" + user_id + "\t" + note_name + " \t" + word + "\t" + meaning + "\t");
+				}
+			}
+			if(table.equals("bookmark") || table.equals("all")) {
+				System.out.println("");
+				sql = "SELECT * FROM bookmark;";
+				preparedStatement = conn.prepareStatement(sql);
+				rs = preparedStatement.executeQuery();
+				
+				System.out.println("user_id\tword\tmeaning");
+				while(rs.next()) {
+					
+					String user_id = rs.getString("user_id");
+					
+					String word = rs.getString("word");
+					String meaning = rs.getString("meaning");
+					System.out.println( user_id + "\t" + word + "\t" + meaning + "\t");
 				}
 			}
 			
@@ -429,6 +445,72 @@ public class MysqlConnection {
 				
 		
 		return a;
+	}
+	
+	//즐겨찾기 추가
+	public void bookMarkInsert(String user_id, String word, String meaning) {
+		PreparedStatement preparedStatement = null;
+		
+		String sql = "INSERT INTO bookmark VALUES("+ "\'"+ user_id +"\'" +","+ "\'" + word +"\'"+","+"\'"+meaning+"\'"+");";
+		System.out.println(sql);
+		try {
+			Connection conn = MysqlConnection.getConnection();
+
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.execute();
+			preparedStatement.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	public HashMap<String,String> bookMarkList(String user_id) {
+		HashMap<String, String> wordlist = new HashMap<String,String>();
+		PreparedStatement preparedStatement = null;
+		String sql = null;
+		ResultSet rs = null;
+
+		try {
+			Connection conn = MysqlConnection.getConnection();
+			sql = "SELECT word,meaning FROM bookmark WHERE user_id = '" + user_id+"\'"+";";
+			System.out.println(sql);
+			preparedStatement = conn.prepareStatement(sql);
+			rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				String word = rs.getString("word");
+				String meaning = rs.getString("meaning");
+				wordlist.put(word, meaning);
+			}
+			
+			return wordlist;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return wordlist;
+		
+	}
+	
+	public void bookMarkDelete(String user_id, String word) {
+		PreparedStatement preparedStatement = null;
+		
+		String sql = "DELETE FROM bookmark WHERE(user_id ="+"\'"+user_id+"\'"+")and(word="+"\'"+word+"\'"+");";
+		System.out.println(sql);
+		try {
+			Connection conn = MysqlConnection.getConnection();
+
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.execute();
+			preparedStatement.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	

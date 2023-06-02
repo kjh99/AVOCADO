@@ -10,8 +10,6 @@ public class main {
 		Scanner scanner = new Scanner(System.in);
 		
 		int a = scanner.nextInt();
-		
-		
-		
+
 	}
 }

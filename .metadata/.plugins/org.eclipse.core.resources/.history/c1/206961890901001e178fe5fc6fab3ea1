@@ -1,0 +1,11 @@
+package newproject;
+
+public class test {
+	public static void main(String[] args) {
+		
+		new MysqlConnection().bookMarkInsert("oop1","example1","예시1");
+		
+		
+	}
+
+}
