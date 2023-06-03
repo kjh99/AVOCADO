@@ -14,8 +14,8 @@ public class test {
 		
 		while(it.hasNext()) {
 			String word = it.next();
-			String meaning = a.get(word);
-			System.out.println(word + " : " + meaning);
+			int meaning = a.get(word);
+			System.out.println(name + " : " + score);
 			}
 	}
 

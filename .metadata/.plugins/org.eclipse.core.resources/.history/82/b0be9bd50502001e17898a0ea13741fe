@@ -567,7 +567,7 @@ public class MysqlConnection {
 
 		try {
 			Connection conn = MysqlConnection.getConnection();
-			sql = "SELECT word,meaning FROM basic_voca;";
+			sql = "SELECT word,meaning FROM basick_voca;";
 			System.out.println(sql);
 			preparedStatement = conn.prepareStatement(sql);
 			rs = preparedStatement.executeQuery();

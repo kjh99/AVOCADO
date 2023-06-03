@@ -9,14 +9,8 @@ public class test {
 		
 		a = new MysqlConnection().basicVocaList();
 		
-		Set<String> keys = a.keySet();
+		Set<String> keys = javaScore.keySet();
 		Iterator<String> it = keys.iterator();
-		
-		while(it.hasNext()) {
-			String word = it.next();
-			String meaning = a.get(word);
-			System.out.println(word + " : " + meaning);
-			}
 	}
 
 }

@@ -558,33 +558,9 @@ public class MysqlConnection {
 	}
 	
 	
-	// basick voca 모두 가져오기
-	public HashMap<String,String> basicVocaList() {
-		HashMap<String, String> wordlist = new HashMap<String,String>();
-		PreparedStatement preparedStatement = null;
-		String sql = null;
-		ResultSet rs = null;
+	
 
-		try {
-			Connection conn = MysqlConnection.getConnection();
-			sql = "SELECT word,meaning FROM basic_voca;";
-			System.out.println(sql);
-			preparedStatement = conn.prepareStatement(sql);
-			rs = preparedStatement.executeQuery();
-			
-			while(rs.next()) {
-				String word = rs.getString("word");
-				String meaning = rs.getString("meaning");
-				wordlist.put(word, meaning);
-			}
-			
-			return wordlist;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return wordlist;
 		
-	}
 }
 
 	

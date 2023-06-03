@@ -559,7 +559,7 @@ public class MysqlConnection {
 	
 	
 	// basick voca 모두 가져오기
-	public HashMap<String,String> basicVocaList() {
+	public HashMap<String,String> vasicVocaList(String user_id) {
 		HashMap<String, String> wordlist = new HashMap<String,String>();
 		PreparedStatement preparedStatement = null;
 		String sql = null;
@@ -567,7 +567,7 @@ public class MysqlConnection {
 
 		try {
 			Connection conn = MysqlConnection.getConnection();
-			sql = "SELECT word,meaning FROM basic_voca;";
+			sql = "SELECT word,meaning FROM bookmark WHERE user_id = '" + user_id+"\'"+";";
 			System.out.println(sql);
 			preparedStatement = conn.prepareStatement(sql);
 			rs = preparedStatement.executeQuery();

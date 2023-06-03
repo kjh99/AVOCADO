@@ -1,0 +1,13 @@
+package newproject;
+
+import java.util.*;
+
+public class test {
+	public static void main(String[] args) {
+		J
+		
+		new MysqlConnection().basicVocaList();
+
+	}
+
+}

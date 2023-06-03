@@ -11,12 +11,6 @@ public class test {
 		
 		Set<String> keys = a.keySet();
 		Iterator<String> it = keys.iterator();
-		
-		while(it.hasNext()) {
-			String word = it.next();
-			String meaning = a.get(word);
-			System.out.println(word + " : " + meaning);
-			}
 	}
 
 }
