@@ -558,7 +558,7 @@ public class MysqlConnection {
 	}
 	
 	
-	// basic voca 모두 가져오기
+	// basick voca 모두 가져오기
 	public HashMap<String,String> basicVocaList() {
 		HashMap<String, String> wordlist = new HashMap<String,String>();
 		PreparedStatement preparedStatement = null;
