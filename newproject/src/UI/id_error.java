@@ -1,20 +1,19 @@
 package UI;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
+import java.awt.EventQueue;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.border.LineBorder;
+import newproject.*;
 
 public class id_error extends JFrame {
 
     private JPanel contentPane;
-    private JTextField textField;
+    private JPasswordField passwordField;
+    private String id;
+    IdFunction idf = new IdFunction();
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -34,9 +33,9 @@ public class id_error extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
-        JLabel lb = new JLabel("");
-        lb.setIcon(new ImageIcon("C:\\Users\\user\\OneDrive\\바탕 화면\\error.png"));
-        lb.setBounds(46, 105, 95, 75);
+        
+        JLabel lb = new JLabel(new ImageIcon("src/UI/image/error.png"));
+        lb.setBounds(35, 105, 95, 75);
         contentPane.add(lb);
         
         JLabel lb_1 = new JLabel("존재하지 않는 ID입니다!");
@@ -44,21 +43,40 @@ public class id_error extends JFrame {
         lb_1.setBounds(130, 105, 244, 85);
         contentPane.add(lb_1);
         
-        JLabel lb_2 = new JLabel("닉네임");
+        JLabel lb_2 = new JLabel("비밀번호");
         lb_2.setFont(new Font("HY엽서M", Font.BOLD, 15));
-        lb_2.setBounds(46, 205, 73, 34);
+        lb_2.setBounds(33, 205, 73, 34);
         contentPane.add(lb_2);
         
-        textField = new JTextField();          //가입할 닉네임 입력받을 textfield
-        textField.setBounds(97, 200, 182, 39);
-        contentPane.add(textField);
-        textField.setColumns(10);
+        passwordField = new JPasswordField();          //가입할 닉네임 입력받을 textfield
+        passwordField.setBounds(97, 200, 182, 39);
         
-        JButton btn_create = new JButton("생성");    //닉네임 생성 버튼
+        contentPane.add(passwordField);
+        passwordField.setColumns(10);
+        
+        JButton btn_create = new JButton("생성"); //닉네임 생성 버튼
+        btn_create.addActionListener(new MyActionListener());
         btn_create.setFont(new Font("HY엽서M", Font.PLAIN, 12));
         btn_create.setBackground(new Color(247, 204, 94));
         btn_create.setBounds(283, 200, 73, 39);
         contentPane.add(btn_create);
+    }
+    
+    class MyActionListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e) {
+    		String password = new String(passwordField.getPassword());
+    		if(password.equals("") == false) {
+    			idf.userInsert(id,password);
+    			JOptionPane.showMessageDialog(null,"아이디 생성 성공", "Message",JOptionPane.INFORMATION_MESSAGE);
+    			dispose();
+	    		new Main2();
+    		}else 
+    			JOptionPane.showMessageDialog(null,"다시 입력하세요", "Message",JOptionPane.ERROR_MESSAGE);
+    }
+    	
+    }	
+    public void setId(String id) {
+    	this.id= id;
     }
 
 }
