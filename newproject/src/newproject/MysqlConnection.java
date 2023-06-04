@@ -48,12 +48,11 @@ public class MysqlConnection {
 				preparedStatement = conn.prepareStatement(sql);
 				rs = preparedStatement.executeQuery();
 				
-				System.out.println("user_id\tnickname");
+				System.out.println("user_id");
 				
 				while(rs.next()) {
 					String user_id = rs.getString("user_id");
-					String nickname = rs.getString("nickname");
-					System.out.println(user_id + " \t" + nickname);
+					System.out.println(user_id);
 				}
 			}
 				
@@ -63,11 +62,11 @@ public class MysqlConnection {
 				preparedStatement = conn.prepareStatement(sql);
 				rs = preparedStatement.executeQuery();
 				
-				System.out.println("my_id\tfriend_nickname");
+				System.out.println("my_id\tfriend_id");
 				while(rs.next()) {
 					String my_id = rs.getString("my_id");
-					String friend_nickname= rs.getString("friend_nickname");
-					System.out.println(my_id + "\t" + friend_nickname);
+					String friend_id= rs.getString("friend_id");
+					System.out.println(my_id + "\t" + friend_id);
 				}
 			}
 			
@@ -179,11 +178,29 @@ public class MysqlConnection {
 				
 	}
 	
+//	//user 테이블에 id추가
+//	public void userInsert(String id, String nickname) {
+//		PreparedStatement preparedStatement = null;
+//		
+//		String sql = "INSERT INTO user VALUES("+ "\'"+ id +"\'" +","+ "\'" + nickname +"\'"+");";
+//		try {
+//			Connection conn = MysqlConnection.getConnection();
+//
+//			preparedStatement = conn.prepareStatement(sql);
+//			preparedStatement.execute();
+//			preparedStatement.close();
+//			conn.close();
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+//		
+//	}
+//	
 	//user 테이블에 id추가
-	public void userInsert(String id, String nickname) {
+	public void userInsert(String id) {
 		PreparedStatement preparedStatement = null;
 		
-		String sql = "INSERT INTO user VALUES("+ "\'"+ id +"\'" +","+ "\'" + nickname +"\'"+");";
+		String sql = "INSERT INTO user VALUES("+ "\'"+ id +"\'" +");";
 		try {
 			Connection conn = MysqlConnection.getConnection();
 
@@ -244,10 +261,10 @@ public class MysqlConnection {
 	}
 	
 	//friend 테이블에 친구 추가
-	public void friendInsert(String my_id, String friend_nickname) {
+	public void friendInsert(String my_id, String friend_id) {
 		PreparedStatement preparedStatement = null;
 		
-		String sql = "INSERT INTO friend VALUES("+ "\'"+ my_id +"\'" +","+ "\'" + friend_nickname +"\'"+");";
+		String sql = "INSERT INTO friend VALUES("+ "\'"+ my_id +"\'" +","+ "\'" + friend_id +"\'"+");";
 		try {
 			Connection conn = MysqlConnection.getConnection();
 
@@ -394,15 +411,15 @@ public class MysqlConnection {
 
 		try {
 			Connection conn = MysqlConnection.getConnection();
-			sql = "SELECT friend_nickname FROM friend WHERE my_id = '" + id+"\'"+";";
+			sql = "SELECT friend_id FROM friend WHERE my_id = '" + id+"\'"+";";
 			System.out.println(sql);
 			preparedStatement = conn.prepareStatement(sql);
 			rs = preparedStatement.executeQuery();
 			
 			while(rs.next()) {
-				String nickname = rs.getString("friend_nickname");
+				String friend = rs.getString("friend_id");
 				
-				friend_list.add(nickname);
+				friend_list.add(friend);
 			}
 			friendlist = friend_list.toArray(new String[friend_list.size()]);
 			return friendlist;
@@ -418,7 +435,7 @@ public class MysqlConnection {
 		PreparedStatement preparedStatement = null;
 		String sql = null;
 		ResultSet rs = null;
-		String nickname = null;
+		String user_id = null;
 
 		try {
 			Connection conn = MysqlConnection.getConnection();
@@ -428,10 +445,10 @@ public class MysqlConnection {
 			rs = preparedStatement.executeQuery();
 			
 			while(rs.next()) {
-				nickname = rs.getString("user_id");
+				user_id = rs.getString("user_id");
 			}
 			
-			if(nickname == null) return false;
+			if(user_id == null) return false;
 			else return true;
 			
 			
@@ -585,6 +602,6 @@ public class MysqlConnection {
 		return wordlist;
 		
 	}
-}
-
 	
+
+}

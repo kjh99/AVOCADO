@@ -5,15 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class BasicVocaSearch {
-	String lang;
-	String search_word;
-	
-	public BasicVocaSearch(String lang, String search_word) { //생성자를 통해 언어와 검색어 초기화
-		this.lang = lang;
-		this.search_word = search_word;
+
+	public BasicVocaSearch() { //생성자를 통해 언어와 검색어 초기화
+
 	}
 	
-	public String[] search() {
+	public String[] search(String lang, String search_word) {
 		String[] a = new String[2]; // 출력 결과를 넣을 String배열
 		PreparedStatement preparedStatement = null;
 		String sql = null;
