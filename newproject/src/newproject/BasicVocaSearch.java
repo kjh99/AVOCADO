@@ -3,6 +3,7 @@ package newproject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 
 public class BasicVocaSearch {
 
@@ -10,8 +11,8 @@ public class BasicVocaSearch {
 
 	}
 	
-	public String[] search(String lang, String search_word) {
-		String[] a = new String[2]; // 출력 결과를 넣을 String배열
+	public HashMap<String,String> search(String lang, String search_word) {
+		HashMap<String, String> wordlist = new HashMap<String,String>();
 		PreparedStatement preparedStatement = null;
 		String sql = null;
 		ResultSet rs = null;
@@ -20,22 +21,24 @@ public class BasicVocaSearch {
 			Connection conn = MysqlConnection.getConnection();
 			
 			if(lang.equals("Eng")) {// 언어가 영어일때
-				sql = "SELECT meaning FROM basic_voca WHERE word = '" + search_word+"\'"+";";
+				sql = "SELECT word,meaning FROM basic_voca WHERE word like '%" + search_word+"%\'"+";";
 				System.out.println(sql);
 				preparedStatement = conn.prepareStatement(sql);
 				rs = preparedStatement.executeQuery();
 				
 				while(rs.next()) {
+					
+					String word = rs.getString("word");
 					String meaning = rs.getString("meaning");
-					a[0] = search_word;
-					a[1] = meaning;
+					wordlist.put(word, meaning);
 					
 				}
+				return wordlist;
 			}
 			
 			if(lang.equals("Kor")) {// 언어가 한국어 일때
 				
-				sql = "SELECT word FROM basic_voca WHERE meaning = '" + search_word+"\'"+";";
+				sql = "SELECT word,meaning FROM basic_voca WHERE meaning like '%" + search_word +"%\'"+";";
 				System.out.println(sql);
 				preparedStatement = conn.prepareStatement(sql);
 				rs = preparedStatement.executeQuery();
@@ -43,9 +46,10 @@ public class BasicVocaSearch {
 				
 				while(rs.next()) {
 					String word = rs.getString("word");
-					a[0] = search_word;
-					a[1] = word;
+					String meaning = rs.getString("meaning");
+					wordlist.put(word, meaning);
 				}
+				return wordlist;
 			}
 			
 		}catch(Exception e){
@@ -55,7 +59,7 @@ public class BasicVocaSearch {
 		}
 				
 		
-		return a;
+		return wordlist;
 	}
 
 }

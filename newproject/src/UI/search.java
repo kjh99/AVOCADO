@@ -1,24 +1,22 @@
 package UI;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.ScrollPane;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.Font;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.table.*;
+import java.awt.EventQueue;
+import java.awt.*;
+import java.awt.event.*;
+import newproject.*;
 
 public class search extends JFrame {
 
     private JPanel contentPane;
     private JTextField textField;
     private String[] lang = {"Eng","Kor"};
-    private String slang;
+    private String slang= "Eng";
+    private JScrollPane scrollPane;
+    private JTable wordTable;
     
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -51,6 +49,10 @@ public class search extends JFrame {
         contentPane.add(textField);
         textField.setColumns(10);
         
+        String header[]= {"단어","뜻"};
+        DefaultTableModel model=new DefaultTableModel(header,0);
+        wordTable=new JTable(model);
+        wordTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         
         
         JButton btn_search = new JButton("검색");   //검색버튼
@@ -60,7 +62,9 @@ public class search extends JFrame {
         btn_search.addActionListener(new MyActionListener_btn());
         contentPane.add(btn_search);
         
-        ScrollPane scrollPane = new ScrollPane();   //단어 목록 출력하는 scrollpane
+        
+        
+        scrollPane = new JScrollPane(wordTable);   //단어 목록 출력하는 scrollpane
         scrollPane.setBackground(new Color(255, 255, 255));
         scrollPane.setEnabled(false);
         scrollPane.setForeground(new Color(0, 0, 0));
@@ -79,20 +83,26 @@ public class search extends JFrame {
 
     	}
     }
-//    class MyActionListener_btn implements ActionListener{
-//    	public void actionPerformed(ActionEvent e) {
-//    		
-//    		String search_word = textField.getText();
-//    		
-//    		if(slang.equals("Kor")) {
-//    			new 
-//    			
-//    		}else {
-//    			
-//    		}
-//    		
-//    		
-//    		
-//    	}
+    class MyActionListener_btn implements ActionListener{
+    	public void actionPerformed(ActionEvent e) {
+    		
+    		String search_word = textField.getText();
+    		DefaultTableModel model=(DefaultTableModel)wordTable.getModel();
+    		
+    		HashMap<String,String> wordlist = new BasicVocaSearch().search(slang, search_word);
+    		Set<String> keys = wordlist.keySet();
+    		Iterator<String> it = keys.iterator();
+    		String []record=new String[2];
+    		model.setNumRows(0);
+    		while(it.hasNext()) {
+    			String word = it.next();
+    			String meaning = wordlist.get(word);
+    			record[0] = word;
+    			record[1] = meaning;
+    			model.addRow(record);
+    			}
+    		
+	
+    	}
     }
 }

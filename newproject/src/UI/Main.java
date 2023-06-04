@@ -76,7 +76,7 @@ public class Main extends JFrame {
     				int result = JOptionPane.showConfirmDialog(null,"없는 아이디입니다 생성 하시겠습니까?", "아이디 생성",JOptionPane.YES_NO_OPTION);
     				if(result == JOptionPane.YES_OPTION) {
     					String nickname = JOptionPane.showInputDialog("nickname을 입력하세요.");
-    					idf.userInsert(id, nickname);
+    					idf.userInsert(id);
     				}
 		
     		}else JOptionPane.showMessageDialog(null,"접속 성공", "Message",JOptionPane.INFORMATION_MESSAGE);
