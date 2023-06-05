@@ -68,7 +68,6 @@ public class id_error extends JFrame {
     		if(password.equals("") == false) {
     			idf.userInsert(id,password);
     			JOptionPane.showMessageDialog(null,"아이디 생성 성공", "Message",JOptionPane.INFORMATION_MESSAGE);
-    			CurrentUser.getInstance().setUserId(id);
     			dispose();
 	    		new Main2();
     		}else 

@@ -80,6 +80,7 @@ public class Main extends JFrame {
     		if(id.equals(""))
     			JOptionPane.showMessageDialog(null,"다시 입력하세요", "Message",JOptionPane.ERROR_MESSAGE); 
     		
+    		
     		boolean hasid = idf.hasId(id);
     		
     		System.out.println(hasid);
@@ -97,9 +98,11 @@ public class Main extends JFrame {
     			System.out.println(pw);
     			if(password.equals(pw)) {
 	    			JOptionPane.showMessageDialog(null,"접속 성공", "Message",JOptionPane.INFORMATION_MESSAGE);
-	
+	    			CurrentUser.getInstance().setUserId(id);
 		    		dispose();
 		    		new Main2();
+    			}else if(password.equals("")){
+    				JOptionPane.showMessageDialog(null,"비밀번호를 입력하세요", "Message",JOptionPane.ERROR_MESSAGE); 
     			}else {
     				JOptionPane.showMessageDialog(null,"비밀번호 오류", "Message",JOptionPane.ERROR_MESSAGE); 
     			}

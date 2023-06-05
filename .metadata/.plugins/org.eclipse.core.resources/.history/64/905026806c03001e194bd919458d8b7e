@@ -124,7 +124,6 @@ public class Main2 extends JFrame {
         btn_search.addActionListener(new ActionListener() { //검색버튼 누르면 search.java띄움
             public void actionPerformed(ActionEvent e) {
             	String id = CurrentUser.getInstance().getUserId();
-            	System.out.println("currentuser: "+id);
                 search sh=new search();
                 sh.setVisible(true);
             }
