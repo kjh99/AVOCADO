@@ -27,7 +27,7 @@ public class add_word extends JFrame {
     public add_word() {
         setSize(300,300);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(215, 236, 213));
 

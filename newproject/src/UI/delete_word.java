@@ -29,7 +29,7 @@ public class delete_word extends JFrame {
     public delete_word() {
         setSize(400,400);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(215, 236, 213));
 

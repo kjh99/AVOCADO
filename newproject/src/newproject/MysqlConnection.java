@@ -260,6 +260,22 @@ public class MysqlConnection {
 		
 	}
 	
+	public void friendDelete(String user_id, String friend_id) {
+		PreparedStatement preparedStatement = null;
+		String sql = "DELETE FROM friend WHERE(my_id ="+"\'"+user_id+"\'"+")and(friend_id="+"\'"+friend_id+"\'"+");";
+		System.out.println(sql);
+		try {
+			Connection conn = MysqlConnection.getConnection();
+
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.execute();
+			preparedStatement.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	//friend 테이블에 친구 추가
 	public void friendInsert(String my_id, String friend_id) {
 		PreparedStatement preparedStatement = null;
@@ -398,6 +414,34 @@ public class MysqlConnection {
 			e.printStackTrace();
 		}
 		return wordlist;
+		
+	}
+	
+	public String[] friendSearch(String search_id) {
+		Vector<String> list = new Vector<String>();
+		PreparedStatement preparedStatement = null;
+		String sql = null;
+		ResultSet rs = null;
+		String[] friendlist=null;
+		
+		try {
+			Connection conn = MysqlConnection.getConnection();
+			sql = "SELECT user_id FROM user WHERE user_id like '%" + search_id+"%\'"+";";
+			System.out.println(sql);
+			preparedStatement = conn.prepareStatement(sql);
+			rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				String id = rs.getString("user_id");
+				list.add(id);
+			
+			}
+			friendlist = list.toArray(new String[list.size()]);
+			return friendlist;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return friendlist;
 		
 	}
 	

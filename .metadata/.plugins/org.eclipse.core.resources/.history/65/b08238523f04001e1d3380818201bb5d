@@ -1,0 +1,70 @@
+package UI;
+import java.awt.EventQueue;
+import javax.management.loading.PrivateClassLoader;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import javax.swing.JTabbedPane;
+import java.awt.ScrollPane;
+import java.awt.Button;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+
+public class bookmark extends JFrame {
+
+    private JPanel contentPane;
+    
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                    bookmark frame = new bookmark();
+                    frame.setVisible(true);
+            }
+        });
+    }
+
+    public bookmark() {
+        setSize(400,400);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        contentPane = new JPanel();
+        contentPane.setBackground(new Color(64, 128, 128));
+
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+        
+        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);   //즐겨찾기 탭
+        tabbedPane.setBounds(23, 28, 335, 309);
+        JPanel panel1=new JPanel();
+        panel1.setBackground(new Color(215, 236, 213));
+        tabbedPane.add("즐겨찾기",panel1);
+        panel1.setLayout(null);
+        
+        ScrollPane scrollPane = new ScrollPane();        //즐겨찾기 된 단어 목록 출력할 scrollpane
+        scrollPane.setBackground(new Color(255, 255, 255));
+        scrollPane.setBounds(10, 10, 310, 260);
+        panel1.add(scrollPane);
+        
+        JPanel panel2=new JPanel();                         //단어목록 탭
+        panel2.setBackground(new Color(215, 236, 213));
+        tabbedPane.add("단어목록",panel2);
+        panel2.setLayout(null);
+        
+        ScrollPane scrollPane_1 = new ScrollPane();        //단어목록 출력할 scrollpane
+        scrollPane_1.setBackground(new Color(255, 255, 255));
+        scrollPane_1.setBounds(10, 10, 310, 219);
+        panel2.add(scrollPane_1);
+        
+        JButton btn_add = new JButton("즐겨찾기에 추가");     //즐겨찾기 추가 버튼
+        btn_add.setFont(new Font("HY엽서M", Font.BOLD, 12));
+        btn_add.setBackground(new Color(245, 249, 208));
+        btn_add.setBounds(10, 235, 310, 35);
+        panel2.add(btn_add);
+        
+        contentPane.add(tabbedPane);
+    }
+}

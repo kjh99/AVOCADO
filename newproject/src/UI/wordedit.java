@@ -30,7 +30,7 @@ public class wordedit extends JFrame {
     public wordedit() {
         setSize(400,400);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
 

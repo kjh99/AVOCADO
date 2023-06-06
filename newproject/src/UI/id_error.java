@@ -26,7 +26,7 @@ public class id_error extends JFrame {
     public id_error() {
         setSize(400,400);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(255, 255, 255));
 

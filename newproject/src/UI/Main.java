@@ -13,18 +13,11 @@ public class Main extends JFrame {
     private JPasswordField passwordField;
     IdFunction idf = new IdFunction();
     
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                    Main frame = new Main();
-                    frame.setVisible(true);
-            }});
-    }
-    
+
     public Main() {
         setSize(550,350);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBorder(new LineBorder(new Color(0, 64, 64), 4));
         contentPane.setBackground(new Color(215, 236, 213));

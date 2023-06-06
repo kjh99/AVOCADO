@@ -18,19 +18,10 @@ public class search extends JFrame {
     private JScrollPane scrollPane;
     private JTable wordTable;
     
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                    search frame = new search();
-                    frame.setVisible(true);
-            }
-        });
-    }
-
     public search() {
         setSize(400,400);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
 
