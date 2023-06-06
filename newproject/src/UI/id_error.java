@@ -15,14 +15,7 @@ public class id_error extends JFrame {
     private String id;
     IdFunction idf = new IdFunction();
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                    id_error frame = new id_error();
-                    frame.setVisible(true);
-            }
-        });
-    }
+
     public id_error() {
         setSize(400,400);
         setVisible(true);

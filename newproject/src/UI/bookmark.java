@@ -13,15 +13,6 @@ import newproject.*;
 
 public class bookmark extends JFrame {
 
-    
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                    bookmark frame = new bookmark();
-                    frame.setVisible(true);
-            }
-        });
-    }
 
     public bookmark() {// 북마크 생성자
         setTitle("즐겨찾기");

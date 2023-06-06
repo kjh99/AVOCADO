@@ -18,14 +18,6 @@ public class wordedit extends JFrame {
 
     private JPanel contentPane;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                    wordedit frame = new wordedit();
-                    frame.setVisible(true);
-            }
-        });
-    }
 
     public wordedit() {
         setSize(400,400);

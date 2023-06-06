@@ -2,13 +2,21 @@ package UI;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
+
+import newproject.*;
+
 
 public class add_word extends JFrame {
 
@@ -17,6 +25,7 @@ public class add_word extends JFrame {
     private JTextField textField_1;
     
     public static void main(String[] args) {
+       getConnection();
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                     add_word frame = new add_word();
@@ -24,10 +33,18 @@ public class add_word extends JFrame {
             }
         });
     }
+    private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
+   private static final String DB_URL = "jdbc:mysql://new-db.crnbwzhpnodx.ap-northeast-2.rds.amazonaws.com/newdb";
+   private static final String DB_USERNAME = "admin";
+   private static final String DB_PASSWORD = "OOPproject_10";
+
+   
+   
+   
     public add_word() {
         setSize(300,300);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(215, 236, 213));
 
@@ -61,6 +78,63 @@ public class add_word extends JFrame {
         btn_add.setFont(new Font("HY엽서M", Font.BOLD, 15));
         btn_add.setBounds(44, 166, 206, 48);
         contentPane.add(btn_add);
+        
+        
+        btn_add.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent e) {
+              String word = textField.getText();
+              String meaning = textField_1.getText();
+                // 여기에 사용자 아이디와 노트 이름을 설정
+              String user_id = "oop1";
+              String note_name = "examplenote";
+              noteInsert(user_id, note_name, word, meaning);
+            }
+        });
     }
+    public static Connection getConnection(){
+      Connection conn = null;
+      try{
+         //Register the JDBC driver
+         Class.forName(DB_DRIVER);
 
+         //Open the connection
+         conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+
+         if(conn != null){
+            System.out.println("Successfully connected.");
+         }else{
+            System.out.println("Failed to connect.");
+         }
+      }catch(Exception e){
+         e.printStackTrace();
+      }
+      return conn;
+   }
+    
+    public void noteInsert(String user_id, String note_name, String word, String meaning) {
+      PreparedStatement preparedStatement = null;
+
+      String sql = "SELECT MAX(num) FROM mynote;";
+      try {
+
+
+         Connection conn = MysqlConnection.getConnection();
+
+         preparedStatement = conn.prepareStatement(sql);
+         ResultSet rs = preparedStatement.executeQuery();
+         rs.next();
+         int num = rs.getInt("MAX(num)")+1;
+
+         sql = "INSERT INTO mynote VALUES("+ "\'"+ num +"\'" +","+ "\'" + user_id +"\'"+","+"\'"+ note_name+"\'" +","+"\'"+ word +"\'" +","+"\'"+ meaning +"\'"+");";
+         System.out.println(sql);
+         preparedStatement = conn.prepareStatement(sql);
+         preparedStatement.execute();
+         preparedStatement.close();
+         conn.close();
+      }catch(Exception e){
+         e.printStackTrace();
+      }
+
+    }
+    
 }

@@ -17,14 +17,7 @@ public class vocabulary extends JFrame {
     private JPanel contentPane;
     private JTextField textField;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                    vocabulary frame = new vocabulary();
-                    frame.setVisible(true);
-            }
-        });
-    }
+
     public vocabulary() {
         setSize(400,400);
         setVisible(true);

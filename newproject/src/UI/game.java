@@ -15,14 +15,7 @@ public class game extends JFrame {
     private JPanel contentPane;
     private JTextField textField;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                    game frame = new game();
-                    frame.setVisible(true);
-            }
-        });
-    }
+
     public game() {
         setSize(400,400);
         setVisible(true);

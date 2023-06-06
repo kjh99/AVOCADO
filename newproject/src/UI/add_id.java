@@ -38,9 +38,6 @@ public class add_id extends JFrame {
     private FriendFunction ff = new FriendFunction();
     private String currentid = CurrentUser.getInstance().getUserId();
 
-    public static void main(String[] args) {
-    	new add_id();
-    }
 
     public add_id() {
         setSize(400,400);

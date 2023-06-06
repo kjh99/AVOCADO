@@ -18,14 +18,6 @@ public class delete_word extends JFrame {
     private JTextField textField;
     private JTextField textField_1;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                    delete_word frame = new delete_word();
-                    frame.setVisible(true);
-            }
-        });
-    }
     public delete_word() {
         setSize(400,400);
         setVisible(true);

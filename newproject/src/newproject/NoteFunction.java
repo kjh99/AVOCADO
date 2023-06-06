@@ -96,15 +96,15 @@ public class NoteFunction extends MysqlConnection{
 	}
 	
 	//지정된 노트의 단어 목록을 모두 불러온다
-	public HashMap<String,String> wordList(String note_name) {
-		HashMap<String, String> wordlist = new HashMap<String,String>();
+	public HashMap<String,String[]> wordList(String id,String note_name) {
+		HashMap<String, String[]> wordlist = new HashMap<String,String[]>();
 		PreparedStatement preparedStatement = null;
 		String sql = null;
 		ResultSet rs = null;
 
 		try {
 			Connection conn = getConnection();
-			sql = "SELECT word,meaning FROM mynote WHERE note_name = '" + note_name+"\'"+";";
+			sql = "SELECT word,meaning,num FROM mynote WHERE(user_id ="+"\'"+id+"\'"+")and(note_name="+"\'"+note_name+"\'"+");";
 			System.out.println(sql);
 			preparedStatement = conn.prepareStatement(sql);
 			rs = preparedStatement.executeQuery();
@@ -112,7 +112,9 @@ public class NoteFunction extends MysqlConnection{
 			while(rs.next()) {
 				String word = rs.getString("word");
 				String meaning = rs.getString("meaning");
-				wordlist.put(word, meaning);
+				String num = rs.getString("num");
+				String[] a = {meaning,num};
+				wordlist.put(word, a);
 			}
 			
 			return wordlist;
