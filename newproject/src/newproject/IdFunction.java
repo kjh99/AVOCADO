@@ -4,9 +4,28 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class IdFunction {
+public class IdFunction extends MysqlConnection {
+	
+	//user 테이블에 id추가
+	public void userInsert(String id) {
+		PreparedStatement preparedStatement = null;
+		
+		String sql = "INSERT INTO user VALUES("+ "\'"+ id +"\'" +");";
+		try {
+			Connection conn = getConnection();
 
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.execute();
+			preparedStatement.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
 
+	//id에 맞는 password반환
 	public String passWord(String id) {
 		PreparedStatement preparedStatement = null;
 		String sql = null;
@@ -14,7 +33,7 @@ public class IdFunction {
 		String password = null;
 		
 		try {
-			Connection conn = MysqlConnection.getConnection();
+			Connection conn = getConnection();
 			sql = "SELECT password FROM user WHERE user_id = '" + id+"\'"+";";
 			System.out.println(sql);
 			preparedStatement = conn.prepareStatement(sql);
@@ -42,7 +61,7 @@ public class IdFunction {
 		String user_id = null;
 		
 		try {
-			Connection conn = MysqlConnection.getConnection();
+			Connection conn = getConnection();
 			sql = "SELECT user_id FROM user WHERE user_id = '" + id+"\'"+";";
 			System.out.println(sql);
 			preparedStatement = conn.prepareStatement(sql);
@@ -71,7 +90,7 @@ public class IdFunction {
 		
 		String sql = "INSERT INTO user VALUES("+ "\'"+ id +"\'" +"," + "\'"+ password +"\'" +");";
 		try {
-			Connection conn = MysqlConnection.getConnection();
+			Connection conn = getConnection();
 
 			preparedStatement = conn.prepareStatement(sql);
 			preparedStatement.execute();

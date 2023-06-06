@@ -22,14 +22,7 @@ public class Main2 extends JFrame {
 
     private JPanel contentPane;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                    Main2 frame = new Main2();
-                    frame.setVisible(true);
-            }
-        });
-    }
+
 
     public Main2() {
         setSize(550,350);

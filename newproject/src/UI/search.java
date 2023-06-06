@@ -80,7 +80,7 @@ public class search extends JFrame {
     		String search_word = textField.getText();
     		DefaultTableModel model=(DefaultTableModel)wordTable.getModel();
     		
-    		HashMap<String,String> wordlist = new BasicVocaSearch().search(slang, search_word);
+    		HashMap<String,String> wordlist = new BasicVocaFunction().search(slang, search_word);
     		Set<String> keys = wordlist.keySet();
     		Iterator<String> it = keys.iterator();
     		String []record=new String[2];

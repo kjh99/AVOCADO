@@ -35,7 +35,7 @@ public class add_id extends JFrame {
     private JTable searchTable;
     DefaultTableModel model1,model2;
     
-    private MysqlConnection db = new MysqlConnection();
+    private FriendFunction ff = new FriendFunction();
     private String currentid = CurrentUser.getInstance().getUserId();
 
     public static void main(String[] args) {
@@ -129,7 +129,7 @@ public class add_id extends JFrame {
     		int selectedRow = friendTable.getSelectedRow();
     		if (selectedRow >= 0) {
     			 String friend = (String) model1.getValueAt(selectedRow, 0);
-    			 db.friendDelete(currentid,friend);
+    			 ff.friendDelete(currentid,friend);
     		}
     		
     		model1.setNumRows(0);
@@ -144,7 +144,7 @@ public class add_id extends JFrame {
     	int selectedRow = searchTable.getSelectedRow();
    		if (selectedRow >= 0) {
    			String friend = (String) model2.getValueAt(selectedRow, 0);
-   			db.friendInsert(currentid,friend);
+   			ff.friendInsert(currentid,friend);
    		}
    		
    		model1.setNumRows(0);
@@ -162,7 +162,7 @@ public class add_id extends JFrame {
     		String search_word = textField.getText();
     		DefaultTableModel model2=(DefaultTableModel)searchTable.getModel();
     		
-    		String []searchlist = db.friendSearch(search_word);
+    		String []searchlist = ff.friendSearch(search_word);
 
     		model2.setNumRows(0);
             for(int i=0; i<searchlist.length;i++) {
@@ -175,7 +175,7 @@ public class add_id extends JFrame {
     }
     
     public void getfriend() {
-        String[] friendlist = db.friendList(currentid);
+        String[] friendlist = ff.friendList(currentid);
         
         for(int i=0; i<friendlist.length;i++) {
         	model1.addRow(new Object[] {friendlist[i]});

@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import newproject.MysqlConnectionBookmark;
+import newproject.*;
 
 public class bookmark extends JFrame {
 
@@ -54,7 +54,7 @@ public class bookmark extends JFrame {
         tableFavorite.setFillsViewportHeight(true); // JTable이 스크롤 팬의 높이를 모두 채우도록 설정
 
     
-        MysqlConnectionBookmark connectionFavorite = new MysqlConnectionBookmark();
+        BookMarkFunction connectionFavorite = new BookMarkFunction();
        
         HashMap<String, String> bookmarkedWords = connectionFavorite.bookMarkList(userId);
         for (Map.Entry<String, String> entry : bookmarkedWords.entrySet()) {
@@ -84,7 +84,7 @@ public class bookmark extends JFrame {
                 if (selectedRow >= 0) {  // 행이 선택되었다면
                     String word = (String) modelFavorite.getValueAt(selectedRow, 0);  // "단어" 칼럼
 
-                    MysqlConnectionBookmark connection = new MysqlConnectionBookmark();
+                    BookMarkFunction connection = new BookMarkFunction();
                     connection.bookMarkDelete(userId, word);
 
                     // 즐겨찾기 테이블에서 항목 삭제
@@ -114,7 +114,7 @@ public class bookmark extends JFrame {
         tableWordList.setFillsViewportHeight(true);
  
       
-        MysqlConnectionBookmark connection = new MysqlConnectionBookmark();
+        BasicVocaFunction connection = new BasicVocaFunction();
         HashMap<String, String> words = connection.basicVocaList();
         for (Map.Entry<String, String> entry : words.entrySet()) {
             String word = entry.getKey();
@@ -139,7 +139,7 @@ public class bookmark extends JFrame {
                     String word = (String) model.getValueAt(selectedRow, 0);  // "단어" 칼럼
                     String meaning = (String) model.getValueAt(selectedRow, 1);  // "의미" 칼럼
 
-                    MysqlConnectionBookmark connection = new MysqlConnectionBookmark();
+                    BookMarkFunction connection = new BookMarkFunction();
                     connection.bookMarkInsert(userId, word, meaning);
 
                     // 즐겨찾기 테이블에 새로운 항목 추가
@@ -158,7 +158,7 @@ public class bookmark extends JFrame {
                 if (tabbedPane.getSelectedIndex() == 0) {  // 즐겨찾기 탭이 선택된 경우
                     // 새로고침
                     modelFavorite.setRowCount(0);      
-                    MysqlConnectionBookmark connectionFavorite = new MysqlConnectionBookmark();
+                    BookMarkFunction connectionFavorite = new BookMarkFunction();
                     HashMap<String, String> bookmarkedWords = connectionFavorite.bookMarkList(userId);
                     for (Map.Entry<String, String> entry : bookmarkedWords.entrySet()) {
                         String word = entry.getKey();
@@ -223,17 +223,18 @@ public class bookmark extends JFrame {
                     model3.setRowCount(0);  // 모든 행 제거
                     
                     // 사용자의 노트 목록을 가져와서 모델에 추가
-                    MysqlConnectionBookmark connectionUser = new MysqlConnectionBookmark();
+                    NoteFunction connectionUser = new NoteFunction();
                     String[] userNotes = connectionUser.noteList(userId);
                     for (String note : userNotes) {
                         model3.addRow(new Object[]{userId, note});
                     }
 
                     // 친구 목록 데이터를 불러와서 친구의 단어장 목록을 모델에 추가
-                    MysqlConnectionBookmark connectionFriends = new MysqlConnectionBookmark();
+                    FriendFunction connectionFriends = new FriendFunction();
+                    NoteFunction connectionnotes = new NoteFunction();
                     String[] friends = connectionFriends.friendList(userId);
                     for (String friend : friends) {
-                        String[] friendNotes = connectionFriends.noteList(friend);
+                        String[] friendNotes = connectionnotes.noteList(friend);
                         for (String note : friendNotes) {
                             model3.addRow(new Object[]{friend, note});
                         }

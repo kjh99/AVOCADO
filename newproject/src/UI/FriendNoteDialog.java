@@ -8,10 +8,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import newproject.MysqlConnectionBookmark;
+import newproject.*;
 
 public class FriendNoteDialog extends JDialog {
-    private MysqlConnectionBookmark connection = new MysqlConnectionBookmark();
+    private BookMarkFunction connection = new BookMarkFunction();
+    private NoteFunction notef = new NoteFunction();
     private String userId;
     private String friend;
     private String note;
@@ -41,7 +42,7 @@ public class FriendNoteDialog extends JDialog {
         table.setFillsViewportHeight(true);
 
         
-        HashMap<String, String> words = connection.wordList(note);
+        HashMap<String, String> words = notef.wordList(note);
         for (Map.Entry<String, String> entry : words.entrySet()) {
             String word = entry.getKey();
             String meaning = entry.getValue();

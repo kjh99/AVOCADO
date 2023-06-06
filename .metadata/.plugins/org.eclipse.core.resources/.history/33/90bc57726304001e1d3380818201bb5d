@@ -1,0 +1,120 @@
+package newproject;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class noteFunction extends MysqlConnection{
+	
+
+	//mynote 테이블에 (나만의 단어장) 단어 추가
+	public void noteInsert(String user_id, String note_name, String word, String meaning) {
+		PreparedStatement preparedStatement = null;
+		
+		String sql = "SELECT MAX(num) FROM mynote;";
+		try {
+			
+			
+			Connection conn = MysqlConnection.getConnection();
+			
+			preparedStatement = conn.prepareStatement(sql);
+			ResultSet rs = preparedStatement.executeQuery();
+			rs.next();
+			int num = rs.getInt("MAX(num)")+1;
+			
+			sql = "INSERT INTO mynote VALUES("+ "\'"+ num +"\'" +","+ "\'" + user_id +"\'"+","+"\'"+ note_name+"\'" +","+"\'"+ word +"\'" +","+"\'"+ meaning +"\'"+");";
+			System.out.println(sql);
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.execute();
+			preparedStatement.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	//단어장에서 단어 삭제
+	public void noteDelete(String user_id,String note_name ,String word) {
+		PreparedStatement preparedStatement = null;
+		
+		String sql = "DELETE FROM mynote WHERE(user_id ="+"\'"+user_id+"\'"+")and(note_name="+"\'"+note_name+"\'"+")and(word="+"\'"+word+"\'"+");";
+		System.out.println(sql);
+		try {
+			Connection conn = MysqlConnection.getConnection();
+
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.execute();
+			preparedStatement.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	//단어장 추가
+	public void noteListInsert(String note_name, String user_id) {
+		PreparedStatement preparedStatement = null;
+		
+		String sql = "INSERT INTO note_list VALUES("+ "\'"+ note_name +"\'" +","+ "\'" + user_id +"\'"+");";
+		try {
+			Connection conn = MysqlConnection.getConnection();
+
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.execute();
+			preparedStatement.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	//단어장 자체 삭제(내부 단어 포함)
+	public void noteListDelete(String user_id,String note_name ) {
+		PreparedStatement preparedStatement = null;
+		
+		String sql = "DELETE FROM note_list WHERE(user_id ="+"\'"+user_id+"\'"+")and(note_name="+"\'"+note_name+"\'"+");";
+		System.out.println(sql);
+		try {
+			Connection conn = MysqlConnection.getConnection();
+
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.execute();
+			sql = "DELETE FROM mynote WHERE(user_id ="+"\'"+user_id+"\'"+")and(note_name="+"\'"+note_name+"\'"+");";
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.execute();
+			preparedStatement.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+	//번호를 이용해 mynote 테이블의 내용 수정
+	public void noteUpdate(String column, String new_data, int num) {
+		PreparedStatement preparedStatement = null;
+		String sql = null;
+		if(column.equals("word"))
+			sql = "UPDATE mynote SET word =" + "\'"+new_data+"\'"+"WHERE(num = "+num +");";
+		else if(column.equals("meaning"))
+			sql = "UPDATE mynote SET meaning =" + "\'"+new_data+"\'"+"WHERE(num = "+num+");";
+		
+		try {
+			Connection conn = MysqlConnection.getConnection();
+			System.out.println(sql);
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.execute();
+			preparedStatement.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+
+}

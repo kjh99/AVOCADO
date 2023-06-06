@@ -1,0 +1,38 @@
+package newproject;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Vector;
+
+public class friendFunction extends MysqlConnection{
+	
+	public String[] friendSearch(String search_id) {
+		Vector<String> list = new Vector<String>();
+		PreparedStatement preparedStatement = null;
+		String sql = null;
+		ResultSet rs = null;
+		String[] friendlist=null;
+		
+		try {
+			Connection conn = MysqlConnection.getConnection();
+			sql = "SELECT user_id FROM user WHERE user_id like '%" + search_id+"%\'"+";";
+			System.out.println(sql);
+			preparedStatement = conn.prepareStatement(sql);
+			rs = preparedStatement.executeQuery();
+			
+			while(rs.next()) {
+				String id = rs.getString("user_id");
+				list.add(id);
+			
+			}
+			friendlist = list.toArray(new String[list.size()]);
+			return friendlist;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return friendlist;
+		
+	}
+
+}

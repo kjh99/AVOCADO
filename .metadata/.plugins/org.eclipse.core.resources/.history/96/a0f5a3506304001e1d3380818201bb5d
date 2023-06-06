@@ -1,0 +1,5 @@
+package newproject;
+
+public class noteFunction extends MysqlConnection{
+
+}
