@@ -42,11 +42,11 @@ public class FriendNoteDialog extends JDialog {
         table.setFillsViewportHeight(true);
 
         
-        HashMap<String, String[]> words = notef.wordList(friend,note);
-        for (Map.Entry<String, String[]> entry : words.entrySet()) {
+        HashMap<String, String> words = notef.wordList(note);
+        for (Map.Entry<String, String> entry : words.entrySet()) {
             String word = entry.getKey();
-            String[] meaning = entry.getValue();
-            model.addRow(new Object[]{word, meaning[0]});
+            String meaning = entry.getValue();
+            model.addRow(new Object[]{word, meaning});
         }
         if (words.isEmpty()) {
             System.out.println("친구노트 불러오기 실패/ 친구없음");

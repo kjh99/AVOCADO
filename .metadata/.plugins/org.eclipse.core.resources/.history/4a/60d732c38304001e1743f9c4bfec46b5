@@ -7,7 +7,7 @@ import java.util.*;
 
 public class test extends JFrame {
 	public static void main(String[] args){
-		HashMap<String,String[]> a = new NoteFunction().wordList("사용자 아이디","노트 이름");
+		HashMap<String,String[]> a = new NoteFunction().wordList("사용자 아디","노트 이름");
 		
 		Set<String> keys = a.keySet();
 		Iterator<String> it = keys.iterator();
