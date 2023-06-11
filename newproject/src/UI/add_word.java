@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import newproject.*;
+import DB.*;
 
 
 public class add_word extends JFrame {

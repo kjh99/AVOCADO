@@ -4,10 +4,12 @@ import java.awt.EventQueue;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
+
+import DB.*;
+
 import java.awt.EventQueue;
 import java.awt.*;
 import java.awt.event.*;
-import newproject.*;
 
 public class search extends JFrame {
 

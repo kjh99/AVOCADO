@@ -1,14 +1,15 @@
 package UI;
 
 import javax.management.loading.PrivateClassLoader;
-import newproject.CurrentUser;
 import javax.swing.table.DefaultTableModel;
+
+import DB.*;
+
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
-import newproject.*;
 
 public class FriendNoteDialog extends JDialog {
     private BookMarkFunction connection = new BookMarkFunction();
