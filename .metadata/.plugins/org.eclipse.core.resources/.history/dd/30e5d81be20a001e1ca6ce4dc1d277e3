@@ -1,0 +1,199 @@
+package UI;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+
+import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.*;
+import DB.*;
+
+public class game extends JFrame {
+
+    private JPanel contentPane;
+    private JTextField textField;
+    private String user;
+    private String note;
+    private FriendFunction connectionFriends = new FriendFunction();
+    private NoteFunction connectionnotes = new NoteFunction();
+    private String userId = CurrentUser.getInstance().getUserId();
+    private MyDialog dialog;
+    private HashMap<String, String[]> words;
+    private String word;
+    private String meaning;
+    private int remainingGuesses;
+    private Set<Character> guessedLetters;
+    private JLabel lblWord;
+    private JLabel lblGuesses;
+    private JTextField txtInput;
+    private JButton btnGuess;
+
+    public game() {
+        setSize(400, 400);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        contentPane = new JPanel();
+        contentPane.setBackground(new Color(218, 218, 254));
+        dialog = new MyDialog(this, "단어장 목록");
+        dialog.setVisible(true);
+        setContentPane(contentPane);
+        contentPane.setLayout(new BorderLayout());
+        lblWord = new JLabel(); // lblWord 레이블 초기화
+        contentPane.add(lblWord, BorderLayout.CENTER);
+
+        // 남은 시도 횟수 표시 레이블
+        lblGuesses = new JLabel();
+        contentPane.add(lblGuesses, BorderLayout.SOUTH);
+
+        // 입력 텍스트 필드
+        txtInput = new JTextField();
+        contentPane.add(txtInput, BorderLayout.NORTH);
+        txtInput.setColumns(10);
+
+        // 추측 버튼
+        btnGuess = new JButton("추측");
+        contentPane.add(btnGuess, BorderLayout.EAST);
+
+        // 추측 버튼 이벤트 리스너
+        btnGuess.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                handleGuess();
+            }
+        });
+    }
+
+    private void handleGuess() {
+        String guess = txtInput.getText().toLowerCase();
+        if (guess.length() == 1 && Character.isLetter(guess.charAt(0))) {
+            char letter = guess.charAt(0);
+            if (guessedLetters.contains(letter)) {
+                JOptionPane.showMessageDialog(this, "이미 추측한 문자입니다.");
+            } else {
+                guessedLetters.add(letter);
+                updateDisplayedWord();
+                checkGameState();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "유효한 한 글자 추측을 입력하세요.");
+        }
+        txtInput.setText("");
+        txtInput.requestFocus();
+    }
+
+    private void updateDisplayedWord() {
+        StringBuilder displayedWord = new StringBuilder();
+        for (char letter : word.toCharArray()) {
+            if (guessedLetters.contains(letter)) {
+                displayedWord.append(letter);
+            } else {
+                displayedWord.append("_");
+            }
+        }
+        lblWord.setText(displayedWord.toString());
+    }
+
+    private void checkGameState() {
+        boolean allLettersGuessed = true;
+        for (char letter : word.toCharArray()) {
+            if (!guessedLetters.contains(letter)) {
+                allLettersGuessed = false;
+                break;
+            }
+        }
+        if (allLettersGuessed) {
+            JOptionPane.showMessageDialog(this, "축하합니다! 단어를 맞췄습니다.");
+            dispose();
+        } else if (remainingGuesses <= 0) {
+            JOptionPane.showMessageDialog(this, "게임 종료! 시도 횟수를 모두 소진했습니다. 단어는: " + word);
+            dispose();
+        }
+    }
+
+    class MyDialog extends JDialog {
+        public MyDialog(JFrame frame, String title) {
+            super(frame, title, true);
+            JPanel
+            panel3 = new JPanel(new BorderLayout());
+            panel3.setBackground(new Color(0xa0c040));  // 색상
+            setSize(400, 400);
+            String[] columnNames3 = {"닉네임", "단어장명"};  // 칼럼 이름
+            DefaultTableModel model3 = new DefaultTableModel(columnNames3, 0) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+
+            JTable table3 = new JTable(model3);
+            table3.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            table3.setBackground(new Color(255, 255, 255));
+            table3.setFillsViewportHeight(true);
+
+            JPanel tablePanel3 = new JPanel(new BorderLayout());
+            tablePanel3.setBackground(new Color(0xa0c040));  // 색상
+            tablePanel3.setBorder(BorderFactory.createEmptyBorder(15, 25, 15, 25));
+            tablePanel3.add(table3);
+
+            JButton btn3 = new JButton("단어장 선택");  // 버튼
+            // 단어장 접속 버튼 클릭 시 창을 띄웁니다.
+            btn3.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    int selectedRow = table3.getSelectedRow();
+                    if (selectedRow >= 0) {  // 행이 선택되었는지 확인
+                        user = (String) model3.getValueAt(selectedRow, 0);  // "닉네임" 칼럼
+                        note = (String) model3.getValueAt(selectedRow, 1);  // "단어장명" 칼럼
+                        selectWord();
+                        initializeGame();
+                        setVisible(false);
+                    }
+                }
+            });
+
+            panel3.add(btn3, BorderLayout.SOUTH);
+            NoteFunction connectionUser = new NoteFunction();
+            String[] userNotes = connectionUser.noteList(userId);
+            for (String note : userNotes) {
+                model3.addRow(new Object[]{userId, note});
+            }
+
+            // 친구 목록 데이터를 불러와서 친구의 단어장 목록을 모델에 추가합니다.
+            FriendFunction connectionFriends = new FriendFunction();
+            NoteFunction connectionnotes = new NoteFunction();
+            String[] friends = connectionFriends.friendList(userId);
+            for (String friend : friends) {
+                String[] friendNotes = connectionnotes.noteList(friend);
+                for (String note : friendNotes) {
+                    model3.addRow(new Object[]{friend, note});
+                }
+            }
+
+            JScrollPane scrollPane3 = new JScrollPane(tablePanel3);
+            panel3.add(scrollPane3, BorderLayout.CENTER);
+            add(panel3);
+        }
+    }
+
+    public void selectWord() {
+        NoteFunction nf = new NoteFunction();
+        words = nf.wordList(user, note);
+        int n = (int) (Math.random() * words.size());
+
+        Set<String> keys = words.keySet();
+        Iterator<String> it = keys.iterator();
+        word = it.next();
+        for (int i = 1; i < n; i++) {
+            word = it.next();
+        }
+    }
+
+    private void initializeGame() {
+        remainingGuesses = 6;
+        guessedLetters = new HashSet<>();
+        updateDisplayedWord();
+        lblGuesses.setText("남은 시도 횟수: " + remainingGuesses);
+    }
+
+
+}

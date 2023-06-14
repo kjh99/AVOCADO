@@ -1,0 +1,120 @@
+package UI;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
+
+import DB.FriendFunction;
+import DB.NoteFunction;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+
+public class game extends JFrame {
+
+    private JPanel contentPane;
+    private JTextField textField;
+    FriendFunction connectionFriends = new FriendFunction();
+    NoteFunction connectionnotes = new NoteFunction();
+
+    public game() {
+        setSize(400,400);
+        setVisible(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        contentPane = new JPanel();
+        contentPane.setBackground(new Color(218, 218, 254));
+
+        setContentPane(contentPane);
+        contentPane.setLayout(new BorderLayout());
+        
+        JPanel panel3 = new JPanel(new BorderLayout());
+        panel3.setBackground(new Color(0xa0c040));  // 색상
+        
+
+        String[] columnNames3 = {"nickname", "notename"};  // 칼럼 이름
+        DefaultTableModel model3 = new DefaultTableModel(columnNames3, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        JTable table3 = new JTable(model3);
+        table3.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table3.setBackground(new Color(255, 255, 255));
+        table3.setFillsViewportHeight(true);
+
+
+
+        JPanel tablePanel3 = new JPanel(new BorderLayout());
+        tablePanel3.setBackground(new Color(0xa0c040));  // 색상
+        tablePanel3.setBorder(BorderFactory.createEmptyBorder(15, 25, 15, 25));
+        tablePanel3.add(table3);
+
+        JButton btn3 = new JButton("단어장 접속");  // 버튼 
+        //단어장 접속버튼 클릭시 창을 띄운다.
+        btn3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = table3.getSelectedRow();
+                if (selectedRow >= 0) {  // 행이 선택되었는지 확인
+                    String friend = (String) model3.getValueAt(selectedRow, 0);  // "nickname" 칼럼
+                    String note = (String) model3.getValueAt(selectedRow, 1);  // "notename" 칼럼
+
+                    // 단어장 보기 창을 생성 및 보여주기
+                    FriendNoteDialog dialog = new FriendNoteDialog(userId, friend, note);
+                    dialog.setVisible(true);
+                }
+            }
+        });
+
+        panel3.add(btn3, BorderLayout.SOUTH);
+        tabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                if (tabbedPane.getSelectedIndex() == 0) {  // "즐겨찾기" 탭이 선택된 경우
+                    // ... (기존의 즐겨찾기 단어 목록을 불러오는 코드)
+                } else if (tabbedPane.getSelectedIndex() == 2) {  // 단어장 목록 탭이 선택된 경우
+                    model3.setRowCount(0);  // 모든 행 제거
+                    
+                    // 사용자의 노트 목록을 가져와서 모델에 추가
+                    NoteFunction connectionUser = new NoteFunction();
+                    String[] userNotes = connectionUser.noteList(userId);
+                    for (String note : userNotes) {
+                        model3.addRow(new Object[]{userId, note});
+                    }
+
+                    // 친구 목록 데이터를 불러와서 친구의 단어장 목록을 모델에 추가
+                    
+                    
+                    String[] friends = connectionFriends.friendList(userId);
+                    for (String friend : friends) {
+                        String[] friendNotes = connectionnotes.noteList(friend);
+                        for (String note : friendNotes) {
+                            model3.addRow(new Object[]{friend, note});
+                        }
+                    }
+                }
+            }
+        });
+        // 버튼 액션 리스너
+
+        JScrollPane scrollPane3 = new JScrollPane(tablePanel3);
+        panel3.add(scrollPane3, BorderLayout.CENTER);
+        contentPane.add(panel3);
+    }
+
+}

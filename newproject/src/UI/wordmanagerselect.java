@@ -7,22 +7,31 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JTabbedPane;
 import javax.swing.JList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import java.awt.Font;
+import DB.*;
+
 
 public class wordmanagerselect extends JFrame {
 
     private JPanel contentPane;
-
+    private NoteFunction nff = new NoteFunction();
 
     public wordmanagerselect() {
         setSize(400,400);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
 
@@ -55,17 +64,28 @@ public class wordmanagerselect extends JFrame {
         
         btn_add.addActionListener(new ActionListener() {  //단어추가버튼 누르면 add_word.java띄움
             public void actionPerformed(ActionEvent e) {
-                add_word aw=new add_word();
+            	String selectedNote = list.getSelectedItem(); // 선택한 리스트의 이름 가져오기
+                add_word aw = new add_word(selectedNote); 
                 aw.setVisible(true);
             }
         });
 
         btn_edit.addActionListener(new ActionListener() { //단어수정버튼 누르면 delete_word.java띄움
             public void actionPerformed(ActionEvent e) {
-                wordmanager dw=new wordmanager();
+            	String selectedNote = list.getSelectedItem(); // 선택한 리스트의 이름 가져오기
+                wordmanager dw=new wordmanager(selectedNote);
                 dw.setVisible(true);
             }
         });
+        
+        String[] noteList = nff.noteList(CurrentUser.getInstance().getUserId());
+        
+        if (noteList != null) {
+            for (String note : noteList) {
+                list.add(note);
+            }
+        }
+
     }
 
 }

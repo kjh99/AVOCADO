@@ -1,0 +1,136 @@
+package UI;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+
+import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.*;
+import DB.*;
+
+
+public class game extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private String user;
+	private String note;
+	private FriendFunction connectionFriends = new FriendFunction();
+	private NoteFunction connectionnotes = new NoteFunction();
+	private String userId = CurrentUser.getInstance().getUserId();
+	private MyDialog dialog;
+	private HashMap<String, String[]> words;
+	private String word; String meaning;
+	
+	public game() {
+		setSize(400,400);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(218, 218, 254));
+		dialog = new MyDialog(this, "단어장 목록");
+		dialog.setVisible(true);
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout());
+		JLabel lb = new JLabel(word);
+		System.out.println("--------"+word);
+		contentPane.add(lb);
+
+		
+	}
+
+	
+	class MyDialog extends JDialog{
+		public MyDialog(JFrame frame, String title) {
+			super(frame,title,true);
+			JPanel panel3 = new JPanel(new BorderLayout());
+			panel3.setBackground(new Color(0xa0c040));  // 색상
+			setSize(400,400);
+			String[] columnNames3 = {"nickname", "notename"};  // 칼럼 이름
+			DefaultTableModel model3 = new DefaultTableModel(columnNames3, 0) {
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+
+			JTable table3 = new JTable(model3);
+			table3.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			table3.setBackground(new Color(255, 255, 255));
+			table3.setFillsViewportHeight(true);
+
+
+
+			JPanel tablePanel3 = new JPanel(new BorderLayout());
+			tablePanel3.setBackground(new Color(0xa0c040));  // 색상
+			tablePanel3.setBorder(BorderFactory.createEmptyBorder(15, 25, 15, 25));
+			tablePanel3.add(table3);
+
+			JButton btn3 = new JButton("단어장 선택");  // 버튼 
+			//단어장 접속버튼 클릭시 창을 띄운다.
+			btn3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int selectedRow = table3.getSelectedRow();
+					if (selectedRow >= 0) {  // 행이 선택되었는지 확인
+						user = (String) model3.getValueAt(selectedRow, 0);  // "nickname" 칼럼
+						note = (String) model3.getValueAt(selectedRow, 1);  // "notename" 칼럼
+						word =selectword();
+						contentPane.revalidate();     // 컨테이너 c의 재배치
+						contentPane.repaint();
+						setVisible(false);
+						
+					}
+				}
+			});
+
+			panel3.add(btn3, BorderLayout.SOUTH);
+			NoteFunction connectionUser = new NoteFunction();
+			String[] userNotes = connectionUser.noteList(userId);
+			for (String note : userNotes) {
+				model3.addRow(new Object[]{userId, note});
+			}
+
+			// 친구 목록 데이터를 불러와서 친구의 단어장 목록을 모델에 추가
+			FriendFunction connectionFriends = new FriendFunction();
+			NoteFunction connectionnotes = new NoteFunction();
+			String[] friends = connectionFriends.friendList(userId);
+			for (String friend : friends) {
+				String[] friendNotes = connectionnotes.noteList(friend);
+				for (String note : friendNotes) {
+					model3.addRow(new Object[]{friend, note});
+				}
+			}
+			
+			JScrollPane scrollPane3 = new JScrollPane(tablePanel3);
+	        panel3.add(scrollPane3, BorderLayout.CENTER);
+	        add(panel3);
+		}
+	}
+	
+	public void selectword() {
+		NoteFunction nf = new NoteFunction();
+		words = nf.wordList(user,note);
+		int n = (int)(Math.random()*words.size());
+		
+		
+		Set<String> keys = words.keySet();
+		Iterator<String> it = keys.iterator(); 
+		word = it.next();
+		for(int i=1;i<n;i++) {
+			
+				word = it.next();
+				System.out.println("llllllll"+word);
+
+			if(i==n-1) {
+				
+			}
+		}
+
+		
+	}
+//	public static void main(String[] args) {
+//		new game();
+//	}
+}

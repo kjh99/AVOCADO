@@ -1,17 +1,13 @@
 package UI;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -23,28 +19,14 @@ public class add_word extends JFrame {
     private JPanel contentPane;
     private JTextField textField;
     private JTextField textField_1;
-    
-    public static void main(String[] args) {
-       getConnection();
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                    add_word frame = new add_word();
-                    frame.setVisible(true);
-            }
-        });
-    }
-    private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
-   private static final String DB_URL = "jdbc:mysql://new-db.crnbwzhpnodx.ap-northeast-2.rds.amazonaws.com/newdb";
-   private static final String DB_USERNAME = "admin";
-   private static final String DB_PASSWORD = "OOPproject_10";
-
-   
-   
-   
-    public add_word() {
+    private static String noteName;
+    private NoteFunction nff = new NoteFunction();
+	
+	
+    public add_word(String noteName) {
         setSize(300,300);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         contentPane = new JPanel();
         contentPane.setBackground(new Color(215, 236, 213));
 
@@ -81,60 +63,19 @@ public class add_word extends JFrame {
         
         
         btn_add.addActionListener(new ActionListener() {
-           public void actionPerformed(ActionEvent e) {
-              String word = textField.getText();
-              String meaning = textField_1.getText();
-                // 여기에 사용자 아이디와 노트 이름을 설정
-              String user_id = "oop1";
-              String note_name = "examplenote";
-              noteInsert(user_id, note_name, word, meaning);
+        	public void actionPerformed(ActionEvent e) {
+        		String word = textField.getText();
+        		String meaning = textField_1.getText();
+        		String user_id = CurrentUser.getInstance().getUserId();
+        		nff.noteInsert(user_id, noteName, word, meaning);
+        		
+        		JOptionPane.showMessageDialog(null, "단어가 추가되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
-    public static Connection getConnection(){
-      Connection conn = null;
-      try{
-         //Register the JDBC driver
-         Class.forName(DB_DRIVER);
 
-         //Open the connection
-         conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-
-         if(conn != null){
-            System.out.println("Successfully connected.");
-         }else{
-            System.out.println("Failed to connect.");
-         }
-      }catch(Exception e){
-         e.printStackTrace();
-      }
-      return conn;
-   }
     
-    public void noteInsert(String user_id, String note_name, String word, String meaning) {
-      PreparedStatement preparedStatement = null;
 
-      String sql = "SELECT MAX(num) FROM mynote;";
-      try {
-
-
-         Connection conn = MysqlConnection.getConnection();
-
-         preparedStatement = conn.prepareStatement(sql);
-         ResultSet rs = preparedStatement.executeQuery();
-         rs.next();
-         int num = rs.getInt("MAX(num)")+1;
-
-         sql = "INSERT INTO mynote VALUES("+ "\'"+ num +"\'" +","+ "\'" + user_id +"\'"+","+"\'"+ note_name+"\'" +","+"\'"+ word +"\'" +","+"\'"+ meaning +"\'"+");";
-         System.out.println(sql);
-         preparedStatement = conn.prepareStatement(sql);
-         preparedStatement.execute();
-         preparedStatement.close();
-         conn.close();
-      }catch(Exception e){
-         e.printStackTrace();
-      }
-
-    }
+    
     
 }
