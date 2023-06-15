@@ -3,20 +3,37 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.Color;
+import java.awt.Container;
+
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+
 import java.awt.List;
+import java.awt.BorderLayout;
 import java.awt.Button;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Map;
+
 import DB.*;
+import UI.game.MyDialog;
 
 public class vocabulary extends JFrame {
 	
@@ -24,7 +41,9 @@ public class vocabulary extends JFrame {
     private JTextField textField;
     String user_id = CurrentUser.getInstance().getUserId(); // 로그인 아이디 불러오기 추가했음
     private String friend_id;
-    
+    private String note;
+    private wordDialog dialog;
+    private String selectedFriendId;
     
   //추가했음 
     public vocabulary(String selectedFriendId) {
@@ -40,6 +59,7 @@ public class vocabulary extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
+        
 
         setContentPane(contentPane);
         contentPane.setLayout(null);
@@ -105,27 +125,15 @@ public class vocabulary extends JFrame {
         panel3.add(list2);
         contentPane.add(tabbedPane);
         
-        JPanel panel4=new JPanel();     //친구 단어 탭
-        panel4.setBackground(new Color(215, 236, 213));
-        tabbedPane.add("친구의 단어",panel4);
-        panel4.setLayout(null);
+
         
-        List list3 = new List();        //친구목록 띄울 list
-        list3.setBounds(10, 10, 312, 261);
-        panel4.add(list3);
-        contentPane.add(tabbedPane);
-        /*친구 목록 띄운다음에 그 list에서 특정 친구 선택하고
-        선택했을 때 그 친구의 단어장 목록 출력하는 창 띄워야해요..!
-        그다음에 그 단어장목록 중에서 특정 단어장 선택하면 해당하는 단어목록들이 출력되는 창 띄우면 돼요!
-        (리스트에서 선택됐을 때 새로운 창을 띄워야 해서 미리 못 만들어놨어요ㅠㅠ)*/ 
-        
-     // Inside the constructor of vocabulary class
+
         btn_create.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String note_name = textField.getText(); // Get the entered text from the text field
+                String note_name = textField.getText(); 
                 NoteFunction noteFunction = new NoteFunction();
-                noteFunction.noteListInsert(note_name, user_id); // Call the noteListInsert method from NoteFunction class
-                // You can perform any additional actions here after saving the note name
+                noteFunction.noteListInsert(note_name, user_id); 
+                
                 
                 list.add(note_name);
                 
@@ -135,35 +143,92 @@ public class vocabulary extends JFrame {
         
         list.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
-                if (event.getClickCount() == 2) { // Check if it's a double-click event
-                    String selectedNote = list.getSelectedItem(); // Get the selected note from the list
-                    // Open wordedit window passing the selected note as a parameter
-                    wordmanagerselect wd=new wordmanagerselect();
-                    wd.setVisible(true);
+                if (event.getClickCount() == 2) {
+                    note = list.getSelectedItem();
+                 
+                    dialog = new wordDialog(user_id,note);
+                    dialog.setVisible(true);
+                   
+                    
                 }
             }
         });
         
-        //이 밑부턴 실행 오류남... 친구id 탭에서 친구id 더블클릭시 친구 단어장 탭에 친구가 추가한 단어장이 출력되야함. 그다음 친구 단어장을 더블클릭하면 친구 단어 탭에 친구가 단어장에 추가한 단어가 나와야함.
+        list2.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent event) {
+                if (event.getClickCount() == 2) {
+                    note = list2.getSelectedItem();
+                   
+                    dialog = new wordDialog(selectedFriendId,note);
+                    dialog.setVisible(true);
+                   
+                    
+                }
+            }
+        });
+        
+      
         list_.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
-                if (event.getClickCount() == 2) { // Check if it's a double-click event
-                    String selectedFriendId = list_.getSelectedItem(); // Get the selected friend ID
+                if (event.getClickCount() == 2) { 
+                    selectedFriendId = list_.getSelectedItem(); 
                     NoteFunction noteFunction = new NoteFunction();
-                    String[] friendNoteList = noteFunction.noteList(selectedFriendId); // Get the friend's note list
+                    String[] friendNoteList = noteFunction.noteList(selectedFriendId); 
 
-                    list2.removeAll(); // Clear the existing items in list2
+                    list2.removeAll(); 
 
-                    // Add the friend's note names to list2
+                   
                     for (String note_name : friendNoteList) {
                         list2.add(note_name);
                     }
                 }
             }
         });
+        
+        
+        
+    }
+    
+    class wordDialog extends JDialog{
+    	private NoteFunction nf = new NoteFunction();
+    	private String user;
+    	private String note;
+    	
+    	public wordDialog(String user,String note) {
+    		
+    		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            setSize(400, 400);
+            setTitle(note);
+            Container c = getContentPane();
+            c.setLayout(new BorderLayout());
+            
+            String[] columnNames = {"단어", "뜻"};
+            DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            JTable table = new JTable(model);
+            table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            table.setBackground(new Color(255, 255, 255));
+            table.setFillsViewportHeight(true);
 
-        
-        
+            
+            HashMap<String, String[]> words = nf.wordList(user,note);
+            for (Map.Entry<String, String[]> entry : words.entrySet()) {
+                String word = entry.getKey();
+                String[] meaning = entry.getValue();
+                model.addRow(new Object[]{word, meaning[0]});
+            }
+            
+            JPanel tablePanel = new JPanel(new BorderLayout());
+            tablePanel.setBackground(new Color(0xa0c040));
+            tablePanel.setBorder(BorderFactory.createEmptyBorder(15, 25, 15, 25));
+            tablePanel.add(table);
+            JScrollPane scrollPane = new JScrollPane(tablePanel);
+            c.add(scrollPane, BorderLayout.CENTER);
+    	}
     }
 }
 

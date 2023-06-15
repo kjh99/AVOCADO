@@ -44,7 +44,7 @@ public class Main extends JFrame {
         contentPane.add(lb);
         
         JLabel lb_ = new JLabel("");
-        lb_.setIcon(new ImageIcon("src/image/avocado.png"));
+        lb_.setIcon(new ImageIcon(getClass().getClassLoader().getResource("UI/image/avocado.png")));
         lb_.setBounds(182, 37, 140, 130);
         contentPane.add(lb_);
         
@@ -82,37 +82,37 @@ public class Main extends JFrame {
         JButton btn_search = new JButton("");   //단어검색 버튼
         btn_search.setOpaque(false);
         btn_search.setFont(new Font("굴림", Font.PLAIN, 19));
-        btn_search.setIcon(new ImageIcon("src/UI/image/yellowbtn.png"));
+        btn_search.setIcon(new ImageIcon(getClass().getClassLoader().getResource("UI/image/yellowbtn.png")));
         btn_search.setBounds(164, 181, 96, 32);
         contentPane.add(btn_search);
         
         JButton btn_edit = new JButton("");     //단어 추가,수정 버튼
-        btn_edit.setIcon(new ImageIcon("src/UI/image/greenbtn.png"));
+        btn_edit.setIcon(new ImageIcon(getClass().getClassLoader().getResource("UI/image/greenbtn.png")));
         btn_edit.setOpaque(false);
         btn_edit.setBounds(272, 183, 100, 32);
         contentPane.add(btn_edit);
         
         JButton btn_bookmark = new JButton(""); //즐겨찾기 버튼
-        btn_bookmark.setIcon(new ImageIcon("src/UI/image/greenbtn.png"));
+        btn_bookmark.setIcon(new ImageIcon(getClass().getClassLoader().getResource("UI/image/greenbtn.png")));
         btn_bookmark.setOpaque(false);
         btn_bookmark.setBounds(118, 223, 96, 32);
         contentPane.add(btn_bookmark);
         
         JButton btn_voca = new JButton("");     //단어장 버튼
-        btn_voca.setIcon(new ImageIcon("src/UI/image/yellowbtn.png"));
+        btn_voca.setIcon(new ImageIcon(getClass().getClassLoader().getResource("UI/image/yellowbtn.png")));
         btn_voca.setOpaque(false);
         btn_voca.setBounds(222, 223, 100, 32);
         contentPane.add(btn_voca);
         
         JButton btn_game = new JButton("");     //단어게임 버튼
-        btn_game.setIcon(new ImageIcon("src/UI/image/greenbtn.png"));
+        btn_game.setIcon(new ImageIcon(getClass().getClassLoader().getResource("UI/image/greenbtn.png")));
         btn_game.setOpaque(false);
         btn_game.setBounds(330, 223, 100, 32);
         contentPane.add(btn_game);
         
         JButton btn_id = new JButton("");
         btn_id.setForeground(new Color(255, 255, 255));   //id추가할 수 있는 버튼(상단의 사람모양)
-        btn_id.setIcon(new ImageIcon("src/UI/image/person_icon.png"));
+        btn_id.setIcon(new ImageIcon(getClass().getClassLoader().getResource("UI/image/person_icon.png")));
         btn_id.setBounds(474, 25, 33, 32);
         contentPane.add(btn_id);
         

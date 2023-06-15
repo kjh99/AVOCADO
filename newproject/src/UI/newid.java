@@ -28,7 +28,7 @@ public class newid extends JFrame {
         contentPane.setLayout(null);
         
         
-        JLabel lb = new JLabel(new ImageIcon("src/UI/image/error.png"));
+        JLabel lb = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("UI/image/error.png")));
         lb.setBounds(35, 105, 95, 75);
         contentPane.add(lb);
         

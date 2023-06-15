@@ -41,7 +41,7 @@ public class login extends JFrame {
         JLabel lb_ = new JLabel("");
         lb_.setBounds(174, 30, 134, 151);
         panel.add(lb_);
-        lb_.setIcon(new ImageIcon("src/UI/image/avocado.png"));
+        lb_.setIcon(new ImageIcon(getClass().getClassLoader().getResource("UI/image/avocado.png")));
         
         JLabel lb_id = new JLabel("ID");
         lb_id.setBounds(128, 180, 50, 40);
@@ -103,5 +103,10 @@ public class login extends JFrame {
     		}
     	}
     }
+	public static void main(String[] args) {
+		login n = new login();
+
+
+	}
 }
 
